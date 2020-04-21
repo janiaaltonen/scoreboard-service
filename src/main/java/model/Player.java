@@ -2,14 +2,12 @@ package model;
 
 public class Player {
     long id;
-    String fName;
-    String lName;
+    String username;
     long score;
 
-    public Player(long id, String fName, String lName, long score) {
+    public Player(long id, String username, long score) {
         this.id = id;
-        this.fName = fName;
-        this.lName = lName;
+        this.username = username;
         this.score = score;
     }
 
@@ -21,20 +19,12 @@ public class Player {
         this.id = id;
     }
 
-    public String getfName() {
-        return fName;
+    public String getUsername() {
+        return username;
     }
 
-    public void setfName(String fName) {
-        this.fName = fName;
-    }
-
-    public String getlName() {
-        return lName;
-    }
-
-    public void setlName(String lName) {
-        this.lName = lName;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public long getScore() {

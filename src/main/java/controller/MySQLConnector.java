@@ -1,4 +1,4 @@
-package db;
+package controller;
 
 import com.mysql.cj.jdbc.MysqlDataSource;
 import java.sql.*;
