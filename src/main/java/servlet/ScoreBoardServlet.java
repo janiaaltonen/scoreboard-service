@@ -33,6 +33,9 @@ public class ScoreBoardServlet extends HttpServlet {
         PlayerDao dao = new PlayerDao();
         if (dao.addNewScore(player)) {
             resp.sendRedirect("/");
+        } else {
+            resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
+            resp.getWriter().print("not found");
         }
     }
 }

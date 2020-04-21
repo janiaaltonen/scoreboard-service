@@ -7,7 +7,7 @@
 <head>
     <meta charset="utf-8">
     <title>Scoreboard</title>
-    <link rel="stylesheet" href="/styles/demo.css">
+    <link rel="stylesheet" href="/styles/app.css" type="text/css">
 </head>
 
 <body>
@@ -16,7 +16,7 @@
         <thead>
         <tr>
             <th> Player </th>
-            <th> Score </th>
+            <th><a href="${pageContext.request.contextPath}/?sort=asc" id="sort" onclick="sort()"> Score </a></th>
         </tr>
         </thead>
         <tbody>
@@ -34,5 +34,11 @@
         <input type="submit" id="add-new-item" value="Add new score" />
     </form>
 
+    <script> function sort() {
+        let link = document.getElementById("sort");
+        if (window.location.href.indexOf("asc") !== -1){
+        link.setAttribute("href","${pageContext.request.contextPath}/?sort=desc")
+        }
+    } </script>
 </body>
 </html>

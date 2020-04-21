@@ -25,10 +25,10 @@ public class PlayerDao implements PlayerList {
         try {
             connection = mySql.getConnection();
             String sql;
-            if (sort == null) {
-                sql = "SELECT * FROM player ORDER BY score DESC";
+            if (sort != null && sort.equals("asc")) {
+                sql = "SELECT * FROM player ORDER BY score ";
             } else {
-                sql = "SELECT * FROM player ORDER BY score";
+                sql = "SELECT * FROM player ORDER BY score DESC";
             }
             prepStatement = connection.prepareStatement(sql);
             resultSet = prepStatement.executeQuery();
