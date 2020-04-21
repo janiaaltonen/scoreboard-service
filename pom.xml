@@ -12,6 +12,9 @@
 		<tomcat.version>9.0.34</tomcat.version>
 		<maven.compiler.target>1.9</maven.compiler.target>
 		<maven.compiler.source>1.9</maven.compiler.source>
+		<mysql.driver.version>8.0.19</mysql.driver.version>
+		<junit.jupiter.version>5.6.0</junit.jupiter.version>
+		<jstl.api.version>1.2</jstl.api.version>
 	</properties>
 
 	<dependencies>
@@ -39,6 +42,22 @@
 			<groupId>org.apache.tomcat</groupId>
 			<artifactId>tomcat-jsp-api</artifactId>
 			<version>${tomcat.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>${mysql.driver.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter</artifactId>
+			<version>${junit.jupiter.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>jstl</artifactId>
+			<version>${jstl.api.version}</version>
 		</dependency>
 	</dependencies>
 </project>

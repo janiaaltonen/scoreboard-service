@@ -6,7 +6,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PlayerDao implements PlayerList{
+public class PlayerDao implements PlayerList {
     MySQLConnector mySql;
     Connection connection;
     PreparedStatement prepStatement;
@@ -20,11 +20,16 @@ public class PlayerDao implements PlayerList{
     }
 
     @Override
-    public List<Player> getAllScores() {
+    public List<Player> getAllScores(String sort) {
         List<Player> playerList = new ArrayList<>();
         try {
             connection = mySql.getConnection();
-            String sql = "SELECT * FROM player ORDER BY score DESC";
+            String sql;
+            if (sort == null) {
+                sql = "SELECT * FROM player ORDER BY score DESC";
+            } else {
+                sql = "SELECT * FROM player ORDER BY score";
+            }
             prepStatement = connection.prepareStatement(sql);
             resultSet = prepStatement.executeQuery();
             while (resultSet.next()) {
@@ -41,6 +46,22 @@ public class PlayerDao implements PlayerList{
 
     @Override
     public boolean addNewScore(Player player) {
-        return false;
+        boolean successful = false;
+        try {
+            connection = mySql.getConnection();
+            String sql = "INSERT INTO player(username, score) VALUES(?, ?)";
+            prepStatement = connection.prepareStatement(sql);
+            prepStatement.setString(1, player.getUsername().trim());
+            prepStatement.setLong(2, player.getScore());
+            int rowsAffected = prepStatement.executeUpdate();
+            if (rowsAffected > 0) {
+                successful = true;
+            }
+        } catch (SQLException e) {
+            System.out.println("SQL Exception " + e.getMessage());
+        } finally {
+            mySql.closeResources(connection, prepStatement, resultSet);
+        }
+        return successful;
     }
 }
