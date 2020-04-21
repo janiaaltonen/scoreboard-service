@@ -1,0 +1,46 @@
+package db;
+
+import model.Player;
+
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
+
+public class PlayerDao implements PlayerList{
+    MySQLConnector mySql;
+    Connection connection;
+    PreparedStatement prepStatement;
+    ResultSet resultSet;
+
+    public PlayerDao() {
+        this.mySql = new MySQLConnector();
+        this.connection = null;
+        this.prepStatement = null;
+        this.resultSet = null;
+    }
+
+    @Override
+    public List<Player> getAllScores() {
+        List<Player> playerList = new ArrayList<>();
+        try {
+            connection = mySql.getConnection();
+            String sql = "SELECT * FROM player ORDER BY score DESC";
+            prepStatement = connection.prepareStatement(sql);
+            resultSet = prepStatement.executeQuery();
+            while (resultSet.next()) {
+                Player player = new Player(resultSet.getLong("id"), resultSet.getString("username"), resultSet.getLong("score"));
+                playerList.add(player);
+            }
+        } catch (SQLException e) {
+            System.out.println("SQL Exception" + e.getMessage());
+        } finally {
+            mySql.closeResources(connection, prepStatement, resultSet);
+        }
+        return playerList;
+    }
+
+    @Override
+    public boolean addNewScore(Player player) {
+        return false;
+    }
+}
