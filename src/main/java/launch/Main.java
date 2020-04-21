@@ -18,32 +18,23 @@ public class Main {
 
     public static void main(String[] args) throws Exception {
 
-        String webappDirLocation = "src/main/webapp/";
+        String webappDirPath = new File("src/main/webapp/").getAbsolutePath();
+
         Tomcat tomcat = new Tomcat();
 
-        // The port that we should run on can be set into an environment variable
-        // Look for that variable and default to 8080 if it isn't there.
-        String webPort = System.getenv("PORT");
-        if (webPort == null || webPort.isEmpty()) {
-            webPort = "8080";
-        }
+        String webPort = System.getenv().getOrDefault("PORT", "8080");
+        tomcat.setPort(Integer.parseInt(webPort));
 
-        tomcat.setPort(Integer.valueOf(webPort));
+        tomcat.getConnector();
 
-        StandardContext ctx = (StandardContext) tomcat.addWebapp("", new File(webappDirLocation).getAbsolutePath());
-        ctx.setReloadable(true);
-        System.out.println("configuring app with basedir: " + new File("./" + webappDirLocation).getAbsolutePath());
+        StandardContext ctx = (StandardContext) tomcat.addWebapp("/", webappDirPath);
 
-        // Declare an alternative location for your "WEB-INF/classes" dir
-        // Servlet 3.0 annotation will work
         File additionWebInfClasses = new File("target/classes");
-
         WebResourceRoot resources = new StandardRoot(ctx);
         resources.addPreResources(
                 new DirResourceSet(resources, "/WEB-INF/classes", additionWebInfClasses.getAbsolutePath(), "/"));
         ctx.setResources(resources);
 
-        // Use UTF-8 throughout the project
         ctx.setRequestCharacterEncoding("utf-8");
         ctx.setResponseCharacterEncoding("utf-8");
 
